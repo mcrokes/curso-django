@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>
-    Mi Primera Página Web
-</h1>
+{% extends 'body.html' %}
 
 {% block content %}
-    <a href="{% url 'erp:vista2' %}">Click</a>
-    <ul>
-        {% for category in categories %}
-            <li>{{ category.id }} / {{ category.name }}</li>
-        {% endfor %}
-    </ul>
+
 {% endblock %}
-
-<p>{{ name }}</p>
-
-
-</body>
-</html>
