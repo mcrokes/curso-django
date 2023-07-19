@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AdminLTE 3 | Top Navigation</title>
+    <title>{{ title }}</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{% static 'lib/adminlte/plugins/fontawesome-free/css/all.min.css' %}">
     <!-- Theme style -->
@@ -18,6 +18,10 @@
     <script src="{% static 'lib/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- AdminLTE App -->
     <script src="{% static 'lib/adminlte/js/adminlte.min.js' %}"></script>
+    <!-- Block head -->
+    {% block head %}
+
+    {% endblock %}
 </head>
 
 {% block body %}

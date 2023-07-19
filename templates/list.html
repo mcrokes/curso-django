@@ -1,0 +1,55 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables/datatables-1.13.5/css/dataTables.bootstrap5.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/datatables/responsive-2.5.0/css/responsive.bootstrap5.min.css' %}"/>
+    <script src="{% static 'lib/datatables/datatables-1.13.5/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables/datatables-1.13.5/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'lib/datatables/responsive-2.5.0/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables/responsive-2.5.0/js/responsive.bootstrap5.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-search"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            <table class="table" id="data">
+                <thead>
+                {% block columns %}
+
+                {% endblock %}
+                </thead>
+                <tbody>
+                {% block rows %}
+
+                {% endblock %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary btn-flat">
+                <i class="fas fa-plus"></i> Nuevo registro
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false,
+                "language": {
+                    url: '{% static 'lib/datatables/datatables-1.13.5/spanish.txt' %}'
+                }
+            });
+        });
+    </script>
+{% endblock %}
