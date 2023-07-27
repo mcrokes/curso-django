@@ -33,10 +33,7 @@ class CategoryListView(ListView):
     def post(self, request, *args, **kwargs):
         data = {}
         try:
-            cat = Category.objects.get(pk=request.POST['id'])
-            for obj in cat:
-                data[f'{obj}'] = obj
-            # data['name'] = cat.name
+            data = Category.objects.get(pk=request.POST['id']).toJSON()
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
@@ -57,7 +54,19 @@ class CategoryCreateView(CreateView):
     success_url = reverse_lazy('erp:category_list')
 
     #
-    # def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado ninguna opción'
+
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     # form = CategoryForm(request.POST)
     #     if form.is_valid():
@@ -72,4 +81,5 @@ class CategoryCreateView(CreateView):
         context['title'] = 'Creación una Categoría'
         context['list_url'] = reverse_lazy('erp:category_list')
         context['entity'] = 'Categorías'
+        context['action'] = 'add'
         return context

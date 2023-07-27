@@ -12,21 +12,22 @@
             </div>
             <div class="card-body">
                 {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
 
-{#                {% if form.errors %}#}
-{#                    <div class="alert alert-danger alert-dismissible">#}
-{#                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>#}
-{#                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>#}
-{#                        <ul>#}
-{#                            {% for field in form %}#}
-{#                                {% for error in field.errors %}#}
-{#                                    <li>{{ error }}</li>#}
-{#                                {% endfor %}#}
-{#                            {% endfor %}#}
-{#                        </ul>#}
-{##}
-{#                    </div>#}
-{#                {% endif %}#}
+                {#                {% if form.errors %}#}
+                {#                    <div class="alert alert-danger alert-dismissible">#}
+                {#                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>#}
+                {#                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>#}
+                {#                        <ul>#}
+                {#                            {% for field in form %}#}
+                {#                                {% for error in field.errors %}#}
+                {#                                    <li>{{ error }}</li>#}
+                {#                                {% endfor %}#}
+                {#                            {% endfor %}#}
+                {#                        </ul>#}
+                {##}
+                {#                    </div>#}
+                {#                {% endif %}#}
 
                 {% for field in form.visible_fields %}
                     <div class="form-group">
@@ -47,7 +48,7 @@
     </form>
 
     <script>
-    var errors = '';
+        var errors = '';
         {% if form.errors %}
             {% for field in form %}
                 {% for error in field.errors %}
@@ -60,6 +61,28 @@
                 icon: 'error'
             })
         {% endif %}
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = $(this).serializeArray();
+            $.ajax({
+                // language=DjangoUrlPath
+                url: '{% url 'erp:category_create' %}',
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).done(function (data) {
+                if(!data.hasOwnProperty('error')){
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error)
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function () {
+            });
+        });
+
     </script>
 
 {% endblock %}
