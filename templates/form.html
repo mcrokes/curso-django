@@ -67,7 +67,7 @@
             var parameters = $(this).serializeArray();
             $.ajax({
                 // language=DjangoUrlPath
-                url: '{% url 'erp:category_create' %}',
+                url: window.location.pathname, {# '{% url 'erp:category_create' %}', #}
                 type: 'POST',
                 data: parameters,
                 dataType: 'json'
