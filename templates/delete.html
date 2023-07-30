@@ -1,4 +1,4 @@
-{% extends 'list.html' %}
+{% extends 'body.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
@@ -6,7 +6,7 @@
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-trash"></i>
                     {{ title }}
                 </h3>
             </div>
@@ -46,4 +46,28 @@
         </div>
     </form>
 
+    <script>
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = $(this).serializeArray();
+            $.ajax({
+                // language=DjangoUrlPath
+                url: window.location.pathname, {# '{% url 'erp:category_create' %}', #}
+                type: 'POST',
+                data: {},
+                dataType: 'json'
+            }).done(function (data) {
+                if(!data.hasOwnProperty('error')){
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+                message_error(data.error)
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function () {
+            });
+        });
+
+    </script>
 {% endblock %}
