@@ -11,12 +11,12 @@ from core.erp.forms import CategoryForm
 from core.erp.models import Category, Product
 
 
-def category_list(request):
-    data = {
-        'title': 'Listado de Categorías',
-        'categories': Category.objects.all()
-    }
-    return render(request, 'category/list.html', data)
+# def category_list(request):
+#     data = {
+#         'title': 'Listado de Categorías',
+#         'categories': Category.objects.all()
+#     }
+#     return render(request, 'category/list.html', data)
 
 
 class CategoryListView(ListView):

@@ -1,23 +1,22 @@
-{% extends 'body.html' %}
+{% extends 'layout.html' %}
 {% load static %}
-
 {% block head %}
-    <link rel="stylesheet" href="{% static 'lib/datatables/datatables-1.13.5/css/dataTables.bootstrap5.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'lib/datatables/responsive-2.5.0/css/responsive.bootstrap5.min.css' %}"/>
-    <script src="{% static 'lib/datatables/datatables-1.13.5/js/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'lib/datatables/datatables-1.13.5/js/dataTables.bootstrap5.min.js' %}"></script>
-    <script src="{% static 'lib/datatables/responsive-2.5.0/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'lib/datatables/responsive-2.5.0/js/responsive.bootstrap5.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/datatables/DataTables-1.13.5/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables/Responsive-2.5.0/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables/DataTables-1.13.5/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables/DataTables-1.13.5/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'lib/datatables/Responsive-2.5.0/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables/Responsive-2.5.0/js/responsive.bootstrap5.min.js' %}"></script>
 
     {% block head_list %}
 
     {% endblock %}
+
 {% endblock %}
 
-
-
 {% block content %}
-    <div class="card card-default">
+    <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">
                 <i class="fas fa-search"></i>
@@ -39,7 +38,7 @@
             </table>
         </div>
         <div class="card-footer">
-            <a href="{{ create_url }}" class="btn btn-primary btn-flat">
+            <a href="{{ create_url }}" class="btn btn-primary btn-flat btnTest">
                 <i class="fas fa-plus"></i> Nuevo registro
             </a>
         </div>
@@ -51,30 +50,23 @@
         $(function () {
             $('#data').DataTable({
                 responsive: true,
-                autoWidth: false,
-                "language": {
-                    url: '{% static 'lib/datatables/datatables-1.13.5/spanish.txt' %}'
-                }
+                autoWidth: false
             });
 
             $('.btnTest').on('click', function () {
-                for (let i = 1; i < 8; i++) {
-                    $.ajax({
-                        url: '{% url 'erp:category_list' %}',
-                        type: 'POST',
-                        data: {'id': i},
-                        dataType: 'json'
-                    }).done(function (data) {
-                        console.log(data)
-                    }).fail(function () {
-                        alert("error");
-                    }).always(function () {
-                        console.log("...checked")
-                    });
-                }
-                alert("complete");
+                $.ajax({
+                    url: '{% url 'erp:category_list' %}',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
 
-            })
+                });
+            });
         });
     </script>
 {% endblock %}
