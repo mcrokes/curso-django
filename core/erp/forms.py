@@ -49,3 +49,8 @@ class CategoryForm(ModelForm):
             data['error'] = str(e)
 
         return data
+
+    def clean(self):
+        cleaned = super().clean()
+        print(cleaned)
+        return cleaned

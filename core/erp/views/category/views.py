@@ -1,30 +1,16 @@
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 
 from core.erp.forms import CategoryForm
-from core.erp.models import Category, Product
-
-
-# def category_list(request):
-#     data = {
-#         'title': 'Listado de Categorías',
-#         'categories': Category.objects.all()
-#     }
-#     return render(request, 'category/list.html', data)
-
+from core.erp.models import Category
 
 class CategoryListView(ListView):
     model = Category
     template_name = 'category/list.html'
-
-    # def get_queryset(self):
-    #     return Category.objects.filter(name__startswith='L')
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -147,4 +133,25 @@ class CategoryDeleteView(DeleteView):
         context['title'] = 'Eliminación de una Categoría'
         context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp:category_list')
+        return context
+
+class CategoryFormView(FormView):
+    form_class = CategoryForm
+    template_name = 'category/create.html'
+    success_url = reverse_lazy('erp:category_list')
+
+    def form_valid(self, form):
+
+        return super().form_valid(form)
+    def form_invalid(self, form):
+
+
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Form | Categoría'
+        context['entity'] = 'Categorías'
+        context['list_url'] = reverse_lazy('erp:category_list')
+        context['action'] = 'add'
         return context
