@@ -41,9 +41,9 @@
                 <button type="submit" class="btn btn-primary btn-flat">
                     <i class="fas fa-save"></i> Guardar registro
                 </button>
-                <button type="reset" class="btn btn-danger btn-flat">
-                    <i class="fas fa-remove"></i> Cancelar
-                </button>
+                <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
             </div>
         </div>
     </form>
@@ -66,7 +66,7 @@
             e.preventDefault();
             var parameters = $(this).serializeArray();
 
-            submit_with_ajax(window.location.pathname, parameters, function () {
+            submit_with_ajax(window.location.pathname, parameters, 'Confirmación', '¿Estás seguro de realizar la siguiente acción?', function () {
                 location.href = '{{ list_url }}';
             })
         });

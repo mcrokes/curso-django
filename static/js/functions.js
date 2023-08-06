@@ -17,12 +17,12 @@ function message_error(obj) {
     })
 }
 
-function submit_with_ajax(url, parameters, callback) {
+function submit_with_ajax(url, parameters, title, message, callback) {
     $.confirm({
         theme: 'material',
-        title: 'Confirmación',
+        title: title,
         icon: 'fa fa-info',
-        content: '¿Estás seguro de realizar la siguiente acción?',
+        content: message,
         columnClass: 'small',
         typeAnimated: true,
         cancelButtonClass: 'btn-primary',
