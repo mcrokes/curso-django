@@ -19,8 +19,8 @@ from core.homepage.views import IndexView
 from core.login.views import LoginFormView
 
 urlpatterns = [
+    path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('erp/', include('core.erp.url')),
-    path('', IndexView.as_view()),
-    path('login/', LoginFormView.as_view())
+    path('login/', include('core.login.url'))
 ]

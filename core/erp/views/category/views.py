@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -13,6 +14,7 @@ class CategoryListView(ListView):
     template_name = 'category/list.html'
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -45,7 +47,11 @@ class CategoryCreateView(CreateView):
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
 
-    #
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -83,6 +89,7 @@ class CategoryUpdateView(UpdateView):
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -116,6 +123,7 @@ class CategoryDeleteView(DeleteView):
     success_url = reverse_lazy('erp:category_list')
 
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
