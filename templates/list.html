@@ -53,7 +53,8 @@
         $(function () {
             $('#data').DataTable({
                 responsive: true,
-                autoWidth: false
+                autoWidth: false,
+                'language': readFileAsDataURL()
             });
 
             $('.btnTest').on('click', function () {
