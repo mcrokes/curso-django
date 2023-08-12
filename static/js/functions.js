@@ -37,9 +37,10 @@ function submit_with_ajax(url, parameters, title, message, callback) {
                         url: url, //window.location.pathname
                         type: 'POST',
                         data: parameters,
-                        dataType: 'json'
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false
                     }).done(function (data) {
-                        console.log(data);
                         if (!data.hasOwnProperty('error')) {
                             callback();
                             return false;

@@ -54,23 +54,26 @@
             $('#data').DataTable({
                 responsive: true,
                 autoWidth: false,
-                'language': readFileAsDataURL()
+                "language": {
+                    url: '{% static 'lib/datatables/datatables-1.13.5/spanish.txt' %}'
+                },
+
             });
 
-            $('.btnTest').on('click', function () {
-                $.ajax({
-                    url: '{% url 'erp:category_list' %}',
-                    type: 'POST',
-                    data: {id: 1},
-                    dataType: 'json'
-                }).done(function (data) {
-                    console.log(data);
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert(textStatus + ': ' + errorThrown);
-                }).always(function (data) {
-
-                });
-            });
+            {#$('.btnTest').on('click', function () {#}
+            {#    $.ajax({#}
+            {#        url: '{% url 'erp:category_list' %}',#}
+            {#        type: 'POST',#}
+            {#        data: {id: 1},#}
+            {#        dataType: 'json'#}
+            {#    }).done(function (data) {#}
+            {#        console.log(data);#}
+            {#    }).fail(function (jqXHR, textStatus, errorThrown) {#}
+            {#        alert(textStatus + ': ' + errorThrown);#}
+            {#    }).always(function (data) {#}
+            {##}
+            {#    });#}
+            {# });#}
         });
     </script>
 {% endblock %}

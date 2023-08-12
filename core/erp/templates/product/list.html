@@ -21,7 +21,7 @@
         <tr>
             <td>{{ obj.id }}</td>
             <td>{{ obj.name }}</td>
-            <td>{{ obj.cate.name }}</td>
+            <td>{{ obj.cat.name }}</td>q
             <td class="text-center">
                 {#{{ obj.image }} #}
                 <img src="{{ obj.get_image }}" class="img-fluid d-block mx-auto"
@@ -40,6 +40,6 @@
     {% endfor %}
 {% endblock %}
 
-{% block javascript %}
-
-{% endblock %}
+{#{% block javascript %}#}
+{##}
+{#{% endblock %}#}
