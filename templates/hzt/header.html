@@ -3,7 +3,7 @@
 <nav class="main-header navbar navbar-expand navbar-dark navbar-primary">
     <div class="container">
         <a href="#" class="navbar-brand">
-            <img src="{% static 'img/logo.png' %}" alt="AdminLTE Logo"
+            <img src="{{ request.user.get_image }}" alt="AdminLTE Logo"
                  class="brand-image"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">Hades</span>
@@ -23,7 +23,7 @@
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                         <li><a href="{% url 'erp:category_list' %}" class="dropdown-item"><i class="fas fa-truck-loading"></i> Categorías</a></li>
                         <li><a href="{% url 'erp:product_list' %}" class="dropdown-item"><i class="fas fa-boxes"></i> Productos</a></li>
-                        <li><a href="#" class="dropdown-item"><i class="fas fa-users"></i> Clientes</a></li>
+                        <li><a href="{% url 'erp:client' %}" class="dropdown-item"><i class="fas fa-users"></i> Clientes</a></li>
                         <li><a href="#" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
                     </ul>
                 </li>

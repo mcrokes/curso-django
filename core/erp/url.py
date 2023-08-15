@@ -1,6 +1,7 @@
 from django.urls import path
 from core.erp.views.category.views import CategoryListView, CategoryCreateView, CategoryUpdateView, \
     CategoryDeleteView, CategoryFormView
+from core.erp.views.client.views import ClientView
 from core.erp.views.dashboard.views import DashboardView
 from core.erp.views.product.views import ProductListView, ProductCreateView, ProductUpdateView, ProductDeleteView, \
     ProductFormView
@@ -22,6 +23,9 @@ urlpatterns = [
     path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
     path('product/dalete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
     path('product/form/', ProductFormView.as_view(), name='product_form'),
+
+    #client
+    path('client/', ClientView.as_view(), name='client'),
 
     # home
     path('dashboard/', DashboardView.as_view(), name='dashboard'),

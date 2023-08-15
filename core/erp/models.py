@@ -1,3 +1,4 @@
+from crum import get_current_user
 from django.db import models
 from datetime import datetime
 
@@ -5,14 +6,27 @@ from django.forms import model_to_dict
 
 from config.settings import MEDIA_URL, STATIC_URL
 from core.erp.choices import gender_choices
+from core.models import BaseModel
 
 
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Descripción')
 
     def __str__(self):
         return 'Nro: {} / Nombre: {}'.format(self.id, self.name)
+
+    def save(
+            self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+
+        super(Category, self).save()
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -53,10 +67,16 @@ class Client(models.Model):
     dni = models.CharField(max_length=10, unique=True, verbose_name='Dni')
     birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
-    sexo = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
+    gender = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
 
     def __str__(self):
         return self.names
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['gender'] = self.get_gender_display()
+        item['birthday'] = self.birthday.strftime('%Y-%m-%d')
+        return item
 
     class Meta:
         verbose_name = 'Cliente'

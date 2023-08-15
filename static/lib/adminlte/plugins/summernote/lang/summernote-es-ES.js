@@ -40,7 +40,7 @@ var __webpack_exports__ = {};
       },
       image: {
         image: 'Imagen',
-        insert: 'Insertar imagen',
+        insert: 'Insertar image',
         resizeFull: 'Redimensionar a tamaño completo',
         resizeHalf: 'Redimensionar a la mitad',
         resizeQuarter: 'Redimensionar a un cuarto',
@@ -52,13 +52,13 @@ var __webpack_exports__ = {};
         shapeCircle: 'Forma: Círculo',
         shapeThumbnail: 'Forma: Miniatura',
         shapeNone: 'Forma: Ninguna',
-        dragImageHere: 'Arrastre una imagen o texto aquí',
-        dropImage: 'Suelte una imagen o texto',
+        dragImageHere: 'Arrastre una image o texto aquí',
+        dropImage: 'Suelte una image o texto',
         selectFromFiles: 'Seleccione un fichero',
         maximumFileSize: 'Tamaño máximo del fichero',
         maximumFileSizeError: 'Superado el tamaño máximo de fichero.',
         url: 'URL de la imagen',
-        remove: 'Eliminar la imagen',
+        remove: 'Eliminar la image',
         original: 'Original'
       },
       video: {
