@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea, Form, ModelChoiceField, Select, DateInput
+from django.forms import ModelForm, TextInput, Textarea, Form, ModelChoiceField, Select, DateInput, CharField
 from django.utils.datetime_safe import datetime
 
 from core.erp.models import Category, Product, Client
@@ -95,6 +95,11 @@ class TestForm(Form):
     products = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
         'class': 'form-control select2',
         'style': 'width: 100%'
+    }))
+
+    search = CharField(widget=TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese una descripción'
     }))
 
 class ClientForm(ModelForm):
