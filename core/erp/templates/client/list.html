@@ -39,13 +39,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h5 class="modal-title">
+                        <b><i class="fas fa-search"></i> <span></span></b>
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" action="." enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="container-fluid">
                             <input name="action" type="hidden" value="add">
+                            <input name="id" id="id" type="hidden" value="0">
                             {% for field in form.visible_fields %}
                                 <div class="form-group">
                                     <label for="email">{{ field.label }}:</label>
