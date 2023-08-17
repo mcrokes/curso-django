@@ -84,29 +84,54 @@
                 console.log(value);
             });
 
-            $('input[name="search"]').autocomplete({
-                source: function (request, response) {
-                     $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'autocomplete',
-                            'term': request.term
-                        },
-                        dataType: 'json',
-                    }).done(function (data) {
-                        response(data)
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        //alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
+            {#$('input[name="search"]').autocomplete({#}
+            {#    source: function (request, response) {#}
+            {#         $.ajax({#}
+            {#            url: window.location.pathname,#}
+            {#            type: 'POST',#}
+            {#            data: {#}
+            {#                'action': 'autocomplete',#}
+            {#                'term': request.term#}
+            {#            },#}
+            {#            dataType: 'json',#}
+            {#        }).done(function (data) {#}
+            {#            response(data)#}
+            {#        }).fail(function (jqXHR, textStatus, errorThrown) {#}
+            {#            //alert(textStatus + ': ' + errorThrown);#}
+            {#        }).always(function (data) {#}
+            {##}
+            {#        });#}
+            {#    },#}
+            {#    delay: 500,#}
+            {#    minLength: 3,#}
+            {#    select: function (event, ui) {#}
+            {#        console.log(ui.item);#}
+            {#    }#}
+            {# });#}
 
-                    });
+            $('select[name="search"]').select2({
+                theme: "bootstrap4",
+                language: 'es',
+                allowClear: true,
+                ajax: {
+                    delay: 250,
+                    type: 'POST',
+                    url: window.location.pathname,
+                    data: function (params) {
+                        var queryParameters = {
+                            term: params.term,
+                            action: 'autocomplete'
+                        }
+                        return queryParameters
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        }
+                    }
                 },
-                delay: 500,
-                minLength: 3,
-                select: function (event, ui) {
-                    console.log(ui.item);
-                }
+                placeholder: 'Ingrese una descripción',
+                minimumInputLengt: 1,
             });
         });
     </script>
