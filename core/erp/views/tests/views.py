@@ -8,6 +8,8 @@ from core.erp.forms import TestForm
 from core.erp.models import Product, Category
 
 
+
+
 class TestView(TemplateView):
     template_name = 'tests.html'
 
@@ -41,3 +43,4 @@ class TestView(TemplateView):
         context['title'] = 'Select Anidados | Django'
         context['form'] = TestForm()
         return context
+

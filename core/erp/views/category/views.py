@@ -12,12 +12,11 @@ from core.erp.mixins import IsSuperuserMixin, ValidatePermissionRequiredMixin
 from core.erp.models import Category
 
 class CategoryListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
-    permission_required = 'erp.change_category'
     model = Category
     template_name = 'category/list.html'
+    permission_required = 'erp.view_category'
 
     @method_decorator(csrf_exempt)
-    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -44,15 +43,15 @@ class CategoryListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, List
         return context
 
 
-class CategoryCreateView(ValidatePermissionRequiredMixin, CreateView):
-    permission_required = 'erp.view_category'
+class CategoryCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     url_redirect = reverse_lazy('erp:category_list')
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'erp.add_category'
+    url_redirect = success_url
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -69,31 +68,24 @@ class CategoryCreateView(ValidatePermissionRequiredMixin, CreateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-
-    # form = CategoryForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect(self.success_url)
-    #     self.object = None
-    #     context = self.get_context_data(**kwargs)
-    #     context['form'] = form
-    #     return render(request, self.template_name, context)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Creación una Categoría'
-        context['list_url'] = reverse_lazy('erp:category_list')
+        context['list_url'] = self.success_url
         context['entity'] = 'Categorías'
         context['action'] = 'add'
         return context
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'erp.change_category'
+    url_redirect = success_url
 
-    @method_decorator(login_required)
+
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -116,18 +108,18 @@ class CategoryUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de una Categoría'
         context['entity'] = 'Categorías'
-        context['list_url'] = reverse_lazy('erp:category_list')
+        context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Category
     template_name = 'category/delete.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'erp.delete_category'
+    url_redirect = success_url
 
-    @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -144,26 +136,6 @@ class CategoryDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Eliminación de una Categoría'
         context['entity'] = 'Categorías'
-        context['list_url'] = reverse_lazy('erp:category_list')
+        context['list_url'] = self.success_url
         return context
 
-class CategoryFormView(FormView):
-    form_class = CategoryForm
-    template_name = 'category/create.html'
-    success_url = reverse_lazy('erp:category_list')
-
-    def form_valid(self, form):
-
-        return super().form_valid(form)
-    def form_invalid(self, form):
-
-
-        return super().form_invalid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Form | Categoría'
-        context['entity'] = 'Categorías'
-        context['list_url'] = reverse_lazy('erp:category_list')
-        context['action'] = 'add'
-        return context

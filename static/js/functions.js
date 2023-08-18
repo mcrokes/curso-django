@@ -63,3 +63,4 @@ function submit_with_ajax(url, parameters, title, message, callback) {
         }
     })
 }
+
