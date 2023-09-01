@@ -1,15 +1,14 @@
-from django.forms import ModelForm, TextInput, Textarea, Form, ModelChoiceField, Select, DateInput, CharField
+from django.forms import ModelForm, TextInput, Textarea, Form, ModelChoiceField, Select, DateInput
 from django.utils.datetime_safe import datetime
 
-from core.erp.models import Category, Product, Client
-
+from core.erp.models import Category, Product, Client, Sale
 
 
 class CategoryForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        first_field = True
+        # first_field = True
         # for form in self.visible_fields():
         #     if first_field:
         #         form.field.widget.attrs['autofocus'] = True
@@ -58,9 +57,10 @@ class CategoryForm(ModelForm):
         print(cleaned)
         return cleaned
 
+
 class ProductForm(ModelForm):
     def __int__(self, *args, **kwargs):
-        super().__int__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['autofocus'] = True
 
     class Meta:
@@ -85,6 +85,7 @@ class ProductForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
 
 class TestForm(Form):
     categories = ModelChoiceField(queryset=Category.objects.all(), widget=Select(attrs={
@@ -158,3 +159,47 @@ class ClientForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+
+class SaleForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    class Meta:
+        model = Sale
+        fields = '__all__'
+        widgets = {
+            'cli': Select(
+                attrs={
+                'autofocus': True,
+                'class': 'form-control select2',
+                'style': 'width: 100%'
+                }
+            ),
+            'date_joined': DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                    'autocomplete': 'off',
+                    'class': 'form-control datetimepicker-input',
+                    'data-target': '#date_joined',
+                    'data-toggle': 'datetimepicker'
+                }
+            ),
+            'iva': TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'subtotal': TextInput(
+                attrs= {
+                    'readonly': True,
+                    'class': 'form-control'
+                }
+            ),
+            'total': TextInput(
+                attrs= {
+                    'readonly': True,
+                    'class': 'form-control'
+                }
+            ),
+        }
