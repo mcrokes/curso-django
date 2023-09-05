@@ -2,6 +2,10 @@
 {% load static %}
 
 {% block head_list %}
+
+    <link href="{% static 'lib/jquery-ui-1.13.2/jquery-ui.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/jquery-ui-1.13.2/jquery-ui.min.js' %}"></script>
+
     <link href="{% static 'lib/select2-4.1.0/css/select2.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'lib/select2-4.1.0/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
     <script src="{% static 'lib/select2-4.1.0/js/select2.min.js' %}"></script>
@@ -41,8 +45,8 @@
                             <div class="form-group">
                                 <label>Buscador de productos:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control"
-                                           placeholder="Ingrese una descripción de producto">
+                                    <input type="text" class="form-control" name="search"
+                                           placeholder="Ingrese una descripción de producto" autocomplete="off">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-danger btn-flat"><i
                                                 class="fas fa-times"></i></button>
@@ -50,7 +54,7 @@
                                 </div>
                             </div>
 
-                            <table class="table" id="data">
+                            <table class="table table-bordered" id="tblProducts">
                                 <thead>
                                 <tr>
                                     <th>Eliminar</th>
@@ -98,6 +102,10 @@
                             <div class="form-group">
                                 <label>Iva:</label>
                                 {{ form.iva }}
+                            </div>
+                            <div class="form-group">
+                                <label>Iva Calculado:</label>
+                                <input type="text" class="form-control" readonly name="ivacalc" value="0.00">
                             </div>
                             <div class="form-group">
                                 <label>Total a pagar:</label>
