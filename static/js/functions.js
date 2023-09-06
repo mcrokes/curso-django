@@ -64,3 +64,32 @@ function submit_with_ajax(url, parameters, title, message, callback) {
     })
 }
 
+function alert_action(title, message, callback) {
+    $.confirm({
+        theme: 'material',
+        title: title,
+        icon: 'fa fa-info',
+        content: message,
+        columnClass: 'small',
+        typeAnimated: true,
+        cancelButtonClass: 'btn-primary',
+        draggable: true,
+        dragWindowBorder: false,
+        buttons: {
+            info: {
+                text: "Si",
+                btnClass: 'btn-primary',
+                action: function () {
+                    callback();
+                }
+            },
+            danger: {
+                text: "No",
+                btnClass: 'btn-red',
+                action: function () {
+
+                }
+            },
+        }
+    })
+}

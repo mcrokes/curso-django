@@ -30,6 +30,7 @@ var vents = {
     list: function () {
         this.calculate_invoice()
         tblProducts = $('#tblProducts').DataTable({
+
             responsive: true,
             autoWidth: false,
             destroy: true,
@@ -49,7 +50,7 @@ var vents = {
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return buttons = '<a rel="remove" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                        return buttons = '<a rel="remove" class="btn btn-danger btn-xs btn-flat" style="color: white"><i class="fas fa-trash-alt"></i></a>';
                     },
                 },
                 {
@@ -86,7 +87,11 @@ var vents = {
     }
 }
 
+
 $(function () {
+
+    vents.list()
+
     $('.select2').select2({
         theme: "bootstrap4",
         language: 'es'
@@ -150,19 +155,39 @@ $(function () {
         }
     });
 
-    // event cant
-
-    $('#tblProducts').on('change', 'input[name="cant"]', function () {
-        console.clear()
-        var cant = parseInt($(this).val())
-        var tr = tblProducts.cell($(this).closest('td, li')).index()
-        var data = tblProducts.row(tr.row).node();
-        vents.items.products[tr.row].cant = cant
-        vents.calculate_invoice()
-        $('td:eq(5)', tblProducts.row(tr.row).node()).html('$'+vents.items.products[tr.row].subtotal.toFixed(2))
-        // vents.list()
-        console.log(data)
+    $('.btnClear').on('click', function () {
+        $('input[name="search"]').val('')
     });
+
+    $('.btnRemoveAll').on('click', function () {
+        if (vents.items.products.length === 0) return false;
+        alert_action('Notificación', '¿Estás seguro de eliminar todos los items?', function () {
+            vents.items.products = [];
+            vents.list();
+        })
+    });
+
+    $('#tblProducts tbody')
+        // event del
+        .on('click', 'a[rel="remove"]', function () {
+            var tr = tblProducts.cell($(this).closest('td, li')).index();
+            alert_action('Notificación', '¿Estás seguro de eliminar el producto?', function () {
+                vents.items.products.splice(tr.row, 1);
+                vents.list();
+            });
+
+        })
+        // event cant
+        .on('change', 'input[name="cant"]', function () {
+            console.clear();
+            var cant = parseInt($(this).val());
+            var tr = tblProducts.cell($(this).closest('td, li')).index();
+            var data = tblProducts.row(tr.row).node();
+            vents.items.products[tr.row].cant = cant;
+            vents.calculate_invoice();
+            $('td:eq(5)', tblProducts.row(tr.row).node()).html('$' + vents.items.products[tr.row].subtotal.toFixed(2));
+            // vents.list();
+        });
 
 });
 
