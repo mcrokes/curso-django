@@ -90,8 +90,6 @@ var vents = {
 
 $(function () {
 
-    vents.list()
-
     $('.select2').select2({
         theme: "bootstrap4",
         language: 'es'
@@ -156,7 +154,7 @@ $(function () {
     });
 
     $('.btnClear').on('click', function () {
-        $('input[name="search"]').val('')
+        $('input[name="search"]').val('').focus();
     });
 
     $('.btnRemoveAll').on('click', function () {
@@ -168,7 +166,9 @@ $(function () {
     });
 
     $('#tblProducts tbody')
+
         // event del
+
         .on('click', 'a[rel="remove"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             alert_action('Notificación', '¿Estás seguro de eliminar el producto?', function () {
@@ -178,6 +178,7 @@ $(function () {
 
         })
         // event cant
+
         .on('change', 'input[name="cant"]', function () {
             console.clear();
             var cant = parseInt($(this).val());
@@ -188,6 +189,32 @@ $(function () {
             $('td:eq(5)', tblProducts.row(tr.row).node()).html('$' + vents.items.products[tr.row].subtotal.toFixed(2));
             // vents.list();
         });
+
+    // event submit
+
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+
+        if(vents.items.products.length === 0) {
+            message_error('Debe tener al menos un item en su detalle de venta');
+            return false;
+        }
+
+        vents.items.date_joined = $('input[name="date_joined"]').val();
+        vents.items.cli = $('select[name="cli"]').val();
+        console.log(vents.items.cli);
+        console.log($('input[name="cli"]').val());
+
+        var parameters = new FormData();
+        parameters.append('action', $('input[name="action"]').val());
+        parameters.append('vents', JSON.stringify(vents.items));
+        submit_with_ajax(window.location.pathname, parameters, 'Notificación', '¿Estas seguro de realizar la siguiente acción', function () {
+            location.href = '/erp/dashboard/';
+        })
+    });
+
+
+    vents.list()
 
 });
 
