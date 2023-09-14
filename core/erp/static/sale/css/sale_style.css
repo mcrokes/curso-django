@@ -1,0 +1,8 @@
+td.details-control {
+    background: url('../../../../../static/lib/datatables/DataTables-1.13.5/images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('../../../../../static/lib/datatables/DataTables-1.13.5/images/details_close.png') no-repeat center center;
+}

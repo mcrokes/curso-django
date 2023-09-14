@@ -59,7 +59,6 @@ $(function () {
             {
                 targets: [-2, -3, -4],
                 class: 'text-center',
-                orderable: false,
                 render: function (data, type, row) {
                     return '$' + parseFloat(data).toFixed(2);
                 }
@@ -67,9 +66,9 @@ $(function () {
             {
                 targets: [-1],
                 class: 'text-center',
-                orderable: false,
                 render: function (data, type, row) {
                     var buttons = '<a href="/erp/sale/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+                    buttons += '<a href="/erp/sale/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
                     buttons += '<a rel="details" class="btn btn-success btn-xs btn-flat"><i class="fas fa-search"></i></a> ';
 
                     return buttons;
@@ -90,7 +89,7 @@ $(function () {
             var data = tblSale.row(tr.row).data();
             console.log(data)
             $('#tblDet').DataTable({
-                responsive: true,
+                // responsive: true,
                 autoWidth: false,
                 destroy: true,
                 deferRender: true,
