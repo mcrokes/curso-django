@@ -186,6 +186,8 @@ $(function () {
         alert_action('Notificación', '¿Estás seguro de eliminar todos los items?', function () {
             vents.items.products = [];
             vents.list();
+        }, function () {
+
         })
     });
 
@@ -198,6 +200,8 @@ $(function () {
             alert_action('Notificación', '¿Estás seguro de eliminar el producto?', function () {
                 vents.items.products.splice(tr.row, 1);
                 vents.list();
+            }, function () {
+
             });
 
         })
@@ -232,9 +236,14 @@ $(function () {
         var parameters = new FormData();
         parameters.append('action', $('input[name="action"]').val());
         parameters.append('vents', JSON.stringify(vents.items));
-        submit_with_ajax(window.location.pathname, parameters, 'Notificación', '¿Estas seguro de realizar la siguiente acción', function () {
-            location.href = '/erp/sale/list/';
-        })
+        submit_with_ajax(window.location.pathname, parameters, 'Notificación', '¿Estas seguro de realizar la siguiente acción', function (response) {
+            alert_action('Notificación', '¿Desea imprimir la boleta de venta?', function () {
+                window.open('/erp/sale/invoice/pdf/' + response.id + '/', '_blank');
+                location.href = '/erp/sale/list/';
+            }, function () {
+                location.href = '/erp/sale/list/';
+            })
+        });
     });
 
 
@@ -244,6 +253,7 @@ $(function () {
         theme: "bootstrap4",
         language: 'es',
         allowClear: true,
+        minimumInputLength: 1,
         templateResult: formatRepo,
         ajax: {
             delay: 250,
@@ -251,8 +261,9 @@ $(function () {
             url: window.location.pathname,
             data: function (params) {
                 var queryParameters = {
+                    action: 'search_products',
                     term: params.term,
-                    action: 'search_products'
+
                 }
                 return queryParameters
             },
@@ -263,15 +274,22 @@ $(function () {
             }
         },
         placeholder: 'Ingrese una descripción',
-        minimumInputLengt: 1,
     })
         .on('select2:select', function (e) {
             var data = e.params.data;
             data.cant = 1;
             data.subtotal = 0.00;
 
-            vents.add(data);
+            var add = true;
 
+            for (const dataKey in vents.items.products) {
+                if (vents.items.products[dataKey].name === data.name) {
+                    add = false;
+                }
+            }
+            if (add) {
+                vents.add(data);
+            }
             $(this).val('').trigger('change.select2');
         })
 
